@@ -1,0 +1,13 @@
+from . import Mobile
+from gravity import GravityFSM
+from movement import VelocityFSM
+
+class MobileGravity(Mobile):
+    def __init__(self, position, fileName=""):
+        super().__init__(position, fileName)
+        self.UD = GravityFSM(self)
+        self.LR = VelocityFSM(self)
+        
+    def update(self, seconds, colliders):        
+        self.UD.updateState()
+        self.LR.updateState()
