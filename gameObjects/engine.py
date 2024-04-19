@@ -13,7 +13,7 @@ class GameEngine(object):
         self.arenaX = [0, RESOLUTION[0]]
         self.arenaY = [RESOLUTION[1]//2-100, (RESOLUTION[1]//2)+100]
         self.waveCounter = 0
-        self.waves = [[Dummy((randint(self.arenaX[0], self.arenaX[1]), randint(self.arenaY[0], self.arenaY[1]))) for x in range(y)] for y in range(50)]
+        self.waves = [[Dummy((randint(self.arenaX[0], self.arenaX[1]), randint(self.arenaY[0], self.arenaY[1]))) for x in range(y)] for y in range(30)]
         self.enemyList = []
         for enemy in self.waves[self.waveCounter]:
             self.enemyAdd(enemy)
@@ -73,7 +73,7 @@ class GameEngine(object):
         pygame.draw.rect(drawSurface, (255, 0, 0), healthMax, 1)
         specialBar = pygame.Rect(RESOLUTION[0]-10-self.spleenicus.specialMeter, 10, self.spleenicus.specialMeter, 20)
         pygame.draw.rect(drawSurface, (255, 255, 0), specialBar)
-        specialMax = pygame.Rect(RESOLUTION[0]-110, 10, 100, 20)
+        specialMax = pygame.Rect(RESOLUTION[0]-10-self.spleenicus.specialMeterMax, 10, self.spleenicus.specialMeterMax, 20)
         pygame.draw.rect(drawSurface, (255, 255, 0), specialMax, 1)
 
 
@@ -98,8 +98,8 @@ class GameEngine(object):
                         enemy.damage.on_taking_damage()
                         enemy.damage.hit()
                         self.spleenicus.specialMeter += 5
-                        if self.spleenicus.specialMeter > 100:
-                            self.spleenicus.specialMeter = 100
+                        if self.spleenicus.specialMeter > self.spleenicus.specialMeterMax:
+                            self.spleenicus.specialMeter = self.spleenicus.specialMeterMax
                 elif self.spleenicus.attacker == "powerAttacking":
                     print("power hit!")
                     if enemy.health > 0:
@@ -108,8 +108,8 @@ class GameEngine(object):
                     enemy.damage.on_throw()
                     enemy.damage.throw()
                     self.spleenicus.specialMeter += 5
-                    if self.spleenicus.specialMeter > 100:
-                        self.spleenicus.specialMeter = 100
+                    if self.spleenicus.specialMeter > self.spleenicus.specialMeterMax:
+                        self.spleenicus.specialMeter = self.spleenicus.specialMeterMax
             if self.spleenicus.specialBox.colliderect(enemy.hurtBox) and self.spleenicus.attacker == "specialing":
                 print("special hit!")
                 if enemy.health > 0:
@@ -162,11 +162,14 @@ class GameEngine(object):
                 pygame.quit()
         if len(self.enemyList) == 0 and self.waveCounter <= len(self.waves):
             self.waveCounter +=1
-            if self.waveCounter % 3 == 0:
+            if self.waveCounter % 4 == 0:
                 self.spleenicus.health = 20 + self.waveCounter
+                if self.spleenicus.health > 40:
+                    self.spleenicus.health = 40
+                self.spleenicus.specialMeterMax += 10
             for enemy in self.waves[self.waveCounter]:
                 self.enemyAdd(enemy)
-
+        
         
         
         Drawable.updateOffset(self.spleenicus, self.size)

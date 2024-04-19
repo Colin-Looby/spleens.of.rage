@@ -7,6 +7,7 @@ def main():
     pygame.init()
     
     pygame.font.init()
+    arial = pygame.font.SysFont("Arial", 50)
 
     for i in range(pygame.joystick.get_count()):
         print(i)
@@ -45,6 +46,8 @@ def main():
         gameClock.tick(60)
         seconds = gameClock.get_time() / 1000
         gameEngine.update(seconds)
+        #message = arial.render((str(gameEngine.waveCounter)), True, (255, 255, 255))
+        #screen.blit(message, (RESOLUTION[0]//2, RESOLUTION[1]+20))
 
     pygame.quit()
 

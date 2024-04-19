@@ -25,6 +25,7 @@ class Spleenicus(Fighter):
       self.framesPerSecond = 2 
       self.nFrames = 2
 
+      self.specialMeterMax = 100
       self.specialMeter = 100
 
       self.hitBoxRect = pygame.Rect(self.hurtBoxOffset[0]+15, self.hurtBoxOffset[1], self.hurtBoxOffset[2]+25, self.hurtBoxOffset[3])
@@ -80,7 +81,7 @@ class Spleenicus(Fighter):
       }
             
       self.FSManimated = CharacterFSM(self)
-      self.LR = VelocityFSM(self, axis=0, bound = (0, RESOLUTION[0]), accel = 90)
+      self.LR = VelocityFSM(self, axis=0, bound = (150, RESOLUTION[0]-150), accel = 90)
       self.UD = VelocityFSM(self, axis=1, bound = (RESOLUTION[1]//2-135, (RESOLUTION[1]//2)+175), accel = 60)
       self.jumper = JumperFSM(self)
       self.attacker = AttackerFSM(self)
@@ -114,7 +115,7 @@ class Spleenicus(Fighter):
                self.attacker.on_enter_attack()
                self.attacker.punch()
          
-         elif event.key == K_z and self.jumper == "grounded" and self.specialMeter == 100:
+         elif event.key == K_z and self.jumper == "grounded" and self.specialMeter == self.specialMeterMax:
             print("special attack")
             self.attacker.on_enter_special()
             self.attacker.special()
@@ -183,11 +184,11 @@ class Spleenicus(Fighter):
                print("standard attack")
                self.attacker.on_enter_attack()
                self.attacker.punch()
-         if event.button == 3 and self.jumper == "grounded":
+         if event.button == 3 and self.jumper == "grounded" and self.specialMeter == self.specialMeterMax:
             print("special attack")
             self.attacker.on_enter_special()
             self.attacker.special()
-            self.specialMeter = 1
+            self.specialMeter = 0
 
             
    def draw(self, drawSurface):

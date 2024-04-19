@@ -22,7 +22,8 @@ class Dummy(Fighter):
             "stun" : 10,
             "moving" :  19,
             "attacking" : 7,
-            "powerAttacking" : 10
+            "powerAttacking" : 10,
+            "floored" : 10
         }
 
         self.rowList = {
@@ -30,7 +31,8 @@ class Dummy(Fighter):
             "stun" : 4,
             "moving" : 3,
             "attacking" : 1,
-            "powerAttacking" : 2
+            "powerAttacking" : 2,
+            "floored" :10
         }
 
         self.framesPerSecondList = {
@@ -38,7 +40,8 @@ class Dummy(Fighter):
             "stun" : 33,
             "moving" : 20,
             "attacking" : 10,
-            "powerAttacking" : 10
+            "powerAttacking" : 10,
+            "floored" : 10
         }
 
         self.FSManimated = CharacterFSM(self)
